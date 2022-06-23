@@ -48,7 +48,6 @@ module Endpoints
     end
 
     def url_hash(api_passphrase, merchant_uuid, notify_url)
-      binding.pry
       hash = (Digest::MD5.hexdigest(api_passphrase) + merchant_uuid + notify_url).downcase
       hash = Digest::MD5.hexdigest(hash)
     end
