@@ -16,13 +16,8 @@ module MerchantWarrior
       @api_key = api_key
       @api_passphrase = api_passphrase
       @merchant_uuid = merchant_uuid
-      @base_url = "https://base.merchantwarrior.com/post/"
-      # @base_url = Rails.env.production? ?  "https://api.merchantwarrior.com/post/" : "https://base.merchantwarrior.com/post/"
+      @base_url = Rails.env.production? ?  "https://api.merchantwarrior.com/post/" : "https://base.merchantwarrior.com/post/"
     end
-
-    # def process_ddebit
-    #   # headers = build_ddebit_headers
-    # end
 
     private
 
