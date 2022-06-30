@@ -1,20 +1,8 @@
-# platform = Platform.find(40)
-# loan = platform.track_loans.active.last
-
-
-# batch =  Track::RepaymentBatch.where(platform_id: platform.id).last
-# service = MerchantWarrior::BatchService.new(platform)
-# service.send_batch_as_csv(batch)
-
-# batch =  Track::RepaymentBatch.where(platform_id: 40).last(1).first
-# service.retrieve_batch_csv(batch)
-
 module Endpoints
   module Batch
     def process_batch(api_key, api_passphrase, merchant_uuid, batch_file)
-      # return process_batch_test_response if !Rails.env.production?
       url = URI("https://base.merchantwarrior.com/post/")
-      notify_url = "https://a471-110-174-140-59.ngrok.io/services/merchant_warrior/process_batch"
+      notify_url = "www.easylodge.com.au/services/merchant_warrior/process_batch"
       https = Net::HTTP.new(url.host, url.port)
       https.use_ssl = true
 
@@ -35,7 +23,6 @@ module Endpoints
     end
 
     def retrieve_batch(api_key, merchant_uuid, batch_uuid)
-      # return retrieve_batch_test_response if !Rails.env.production?
       body = {
         method: "retrieveBatch",
         merchantUUID: merchant_uuid,

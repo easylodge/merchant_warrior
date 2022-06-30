@@ -1,44 +1,18 @@
-# platform = Platform.find(40)
-# loan = platform.track_loans.active.last
-# batch =  Track::RepaymentBatch.where(platform_id: 40).last
-# ddebit_service = MerchantWarrior::DirectDebitService.new(platform)
-# ddebit_service.send_repayment_batch_ddebit(batch)
-
-# repayment = batch.repayments[11]
-# res = ddebit_service.create_ddebit_request(repayment)
-
-# ddebit_service.sync_all_pending_mw_payment_requests
-
-# res = ddebit_service.sync_mw_payment_request(repayment)
-
 module Endpoints
   module DirectDebit
     def process_ddebit(api_key, api_passphrase, merchant_uuid, details = {})
-      unless Rails.env.production?
-        details[:customer_name] = "Test Customer"
-        details[:address] = "123 Test street"
-        details[:phone] = "0404040404"
-        details[:email] = "Test@tetemail.com"
-        details[:bsb_number] = "123456"
-        details[:account_number] = "12345678"
-        details[:account_name] = "Test person"
-        details[:postcode] = "4000"
-        details[:state] = "QLD"
-      end
-
-      # return process_debit_test_response if !Rails.env.production?
       body = {
         method: "processDDebit",
         merchantUUID: merchant_uuid,
         apiKey: api_key,
         transactionAmount: details[:amount],
         transactionCurrency: "AUD",
-        transactionProduct: 100001,
+        transactionProduct: details[:product_id],
         customerName: details[:customer_name],
         customerCountry: "AU",
         customerState: details[:state],
-        customerCity: "Brisbane",
-        customerAddress: details[:address], #"123 Test Street",
+        customerCity: details[:city],
+        customerAddress: details[:address],
         customerPostCode: details[:postcode],
         customerPhone: details[:phone],
         customerEmail: details[:email], #optional - recommended
@@ -51,12 +25,11 @@ module Endpoints
         custom2: details[:custom2],
         custom3: details[:custom3]
       }
-      # return process_debit_test_response if !Rails.env.production?
+
       post(body).parsed_response.deep_symbolize_keys
     end
 
     def query_ddebit(api_key, api_passphrase, merchant_uuid, mw_ddebit_request_id)
-      # return query_dd_test_response if !Rails.env.production?
       body = {
         method: 'queryDD',
         merchantUUID: merchant_uuid,
