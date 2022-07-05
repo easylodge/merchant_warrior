@@ -1,7 +1,6 @@
 require "httparty"
 require 'net/http'
 require 'uri'
-require 'pry'
 
 require "merchant_warrior/endpoints/batch"
 require "merchant_warrior/endpoints/direct_debit"
